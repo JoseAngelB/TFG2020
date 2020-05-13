@@ -7,12 +7,14 @@ using TouchScript.Behaviors;
 using TouchScript.Gestures.TransformGestures;
 
 
-public class Carta : MonoBehaviour
-//public class Carta : Bolt.EntityEventListener<ICartaState>
+//public class Carta : MonoBehaviour
+public class Carta : Bolt.EntityEventListener<ICartaState>
 {
     public string palo;
     public string numero;
     public string tipoBaraja;
+
+    public float tiempoRecuperarPropiedades;
 
     private GameObject camara;
     private float rotacionY;
@@ -26,15 +28,28 @@ public class Carta : MonoBehaviour
         camara = GameObject.FindWithTag("MainCamera");
         transform.position = Vector3.zero;
         transform.LookAt(new Vector3(camara.transform.position.x, transform.position.y, camara.transform.position.z));
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY;
         rotacionY = transform.rotation.y;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY;
         transform.position = posicionInicial;
-    }
-
-
-    void Update()
-    {
         
+        RecuperarPropiedades();
+    }
+    
+
+    void RecuperarPropiedades()
+    {
+        //Debug.Log("Recupero propiedades");
+        palo = state.CartaPalo;
+        numero = state.CartaNumero;
+        tipoBaraja = state.CartaTipoBaraja;
+        if (palo != "" && numero != "" && tipoBaraja != "")
+        {
+            PonerImagen();
+        }
+        else
+        {
+            Invoke("RecuperarPropiedades", tiempoRecuperarPropiedades);
+        }
     }
 
     public void PonerImagen()
@@ -52,5 +67,36 @@ public class Carta : MonoBehaviour
             otro.gameObject.GetComponent<Player> ().PonerAutoridad (this.gameObject);
             Debug.Log ("hasAuthority es: " + hasAuthority);
         }*/
+    }
+
+    public void PonerPropiedades(string palo, string numero, string tipoBaraja)
+    {
+        this.palo = palo;
+        this.numero = numero;
+        this.tipoBaraja = tipoBaraja;
+        PonerImagen();
+
+
+        /*//creamos el evento de red para sincronizarlo        //no sirve porque puede que no exista todavía
+        var eventoSinc = PropiedadesCartaEvent.Create(entity);
+        eventoSinc.Numero = numero;
+        eventoSinc.Palo = palo;
+        eventoSinc.TipoBaraja = tipoBaraja;
+        Debug.LogFormat("Envío el evento {0}", eventoSinc.ToString());
+        eventoSinc.Send();*/
+        
+        //lo ponemos en el objeto a sincronizar
+        state.CartaPalo = palo;
+        state.CartaNumero = numero;
+        state.CartaTipoBaraja = tipoBaraja;
+    }
+
+    public override void OnEvent(PropiedadesCartaEvent evento)
+    {
+        Debug.LogFormat("Recibo el evento");
+        palo = evento.Palo;
+        numero = evento.Numero;
+        tipoBaraja = evento.TipoBaraja;
+        PonerImagen();
     }
 }

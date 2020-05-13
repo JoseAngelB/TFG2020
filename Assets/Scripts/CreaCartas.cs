@@ -47,10 +47,11 @@ public class CreaCartas : Bolt.EntityEventListener<ICreaCartasState>
 			}
 			for (int j = 0; j < maxCartasPorPalo; j++) {
 				GameObject nuevaCarta = (GameObject) BoltNetwork.Instantiate (carta, new Vector3(j * 4 -10, i + j, i * 10 -10) , Quaternion.identity);
-				nuevaCarta.GetComponent<Carta> ().palo = palo;
+				nuevaCarta.GetComponent<Carta>().PonerPropiedades(palo, (j+1).ToString(), tipoBaraja);
+				/*nuevaCarta.GetComponent<Carta> ().palo = palo;
 				nuevaCarta.GetComponent<Carta> ().numero = "" + (j+1);
 				nuevaCarta.GetComponent<Carta> ().tipoBaraja = tipoBaraja;
-				nuevaCarta.GetComponent<Carta>().PonerImagen();
+				nuevaCarta.GetComponent<Carta>().PonerImagen();*/
 			}
 		}
 	}

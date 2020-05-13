@@ -102,12 +102,12 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
             {
                 transform.position = rayo.GetPoint(distancia);
                 input.click = rayo.GetPoint(distancia); //distancia del rayo
-                input.position = transform.position;
+                input.position = transform.position + distanciaInicial;
             }
 
             entity.QueueInput(input);
         }
-        input.position = transform.position;
+        input.position = transform.position + distanciaInicial;
         entity.QueueInput(input);
 
     }

@@ -31,7 +31,7 @@ public class NetworkCallbacksServer : Bolt.GlobalEventListener
     {
         var log = ConexionesEvent.Create();
         log.Mensaje = string.Format("Conectado {0}", connection.RemoteEndPoint);
-        log.NumeroConexiones = numeroConexiones++;
+        log.NumeroConexiones = ++numeroConexiones;
         Debug.LogFormat("Nueva conexión desde {0}, ahora hay {1} conexiones", connection.RemoteEndPoint, numeroConexiones);
         log.Send();
     }
@@ -40,7 +40,7 @@ public class NetworkCallbacksServer : Bolt.GlobalEventListener
     {
         var log = ConexionesEvent.Create();
         log.Mensaje = string.Format("Desconectado {0}", connection.RemoteEndPoint);
-        log.NumeroConexiones = numeroConexiones--;
+        log.NumeroConexiones = --numeroConexiones;
         Debug.LogFormat("Desconectado desde {0}, ahora hay {1} conexiones", connection.RemoteEndPoint, numeroConexiones);
         log.Send();
     }

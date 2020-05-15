@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using TouchScript.Behaviors;
-using TouchScript.Gestures.TransformGestures;
 
 
 //public class Carta : MonoBehaviour
@@ -14,7 +12,8 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
     public string numero;
     public string tipoBaraja;
 
-    public float tiempoRecuperarPropiedades;
+    [SerializeField]
+    private float tiempoRecuperarPropiedades;
 
     private GameObject camara;
     private float rotacionY;
@@ -34,21 +33,26 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
         
         RecuperarPropiedades();
     }
-    
+
+    private void Update()
+    {
+        
+    }
 
     void RecuperarPropiedades()
     {
-        //Debug.Log("Recupero propiedades");
         palo = state.CartaPalo;
         numero = state.CartaNumero;
         tipoBaraja = state.CartaTipoBaraja;
-        if (palo != "" && numero != "" && tipoBaraja != "")
+        Debug.LogFormat("Recupero propiedades del {0} de {1} de la baraja {2}", numero, palo, tipoBaraja);
+        if (palo == null || numero == null || tipoBaraja == null)
         {
-            PonerImagen();
+            Invoke("RecuperarPropiedades", tiempoRecuperarPropiedades);
+            Debug.LogFormat("Reintentaré buscar las propiedades del {0} de {1} de la baraja {2}", numero, palo, tipoBaraja);
         }
         else
         {
-            Invoke("RecuperarPropiedades", tiempoRecuperarPropiedades);
+            PonerImagen();
         }
     }
 
@@ -71,6 +75,7 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
 
     public void PonerPropiedades(string palo, string numero, string tipoBaraja)
     {
+        Debug.LogFormat("Pongo las propiedades del {0} de {1}", numero, palo);
         this.palo = palo;
         this.numero = numero;
         this.tipoBaraja = tipoBaraja;

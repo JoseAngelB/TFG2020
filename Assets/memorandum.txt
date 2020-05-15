@@ -22,6 +22,9 @@ para que haya posibilidad de poner distinto número de cartas, se crean a partir
 creada pantalla antes de iniciar partida para esperar a los jugadores y si es posible cambiar opciones
 todas las pantallas de opciones del juego está en el mismo objeto que la pantalla de iniciar partida, gobernadas por una máquina de estados
 
+sistema de eventos para conocer las (des)conexones que se produzcan
+
+
 
 
 

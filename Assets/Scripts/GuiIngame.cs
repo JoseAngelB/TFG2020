@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Bolt;
+using UnityEngine.SceneManagement;
 
 public class GuiIngame : MonoBehaviour
 {
@@ -198,7 +199,15 @@ public class GuiIngame : MonoBehaviour
     private void EstadoConfirmarsalir()
     {
         Debug.Log("EstadoConfirmarsalir() no implementado, salimos directamente");
-        BoltNetwork.LoadScene("Menu");
+        if (BoltNetwork.IsServer)
+        {
+            BoltNetwork.LoadScene("Menu");
+        }
+        else
+        {
+            SceneManager.LoadScene("Menu");
+        }
+        BoltNetwork.Shutdown();
     }
     
     

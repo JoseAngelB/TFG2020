@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Bolt;
+using JuegoCartas.Juego;
+
 
 [BoltGlobalBehaviour]
 public class NetworkCallbacks : Bolt.GlobalEventListener
@@ -15,14 +17,30 @@ public class NetworkCallbacks : Bolt.GlobalEventListener
 
     private float tiempoLogMostrado = 5f;
     private double tiempoTranscurrido = 0f;
-    
+
     public override void SceneLoadLocalDone(string scene)
     {
         // aquí ponemos lo que pasa localmente cada vez que se carga una nueva escena
 
-        //var spawnPosition = new Vector3(Random.Range(-16, 16), 0, Random.Range(-16, 16));
-        //BoltNetwork.Instantiate(BoltPrefabs.Carta, spawnPosition, Quaternion.identity);
+        if (scene != "Menu")
+        {
+            //CamaraJugador.Instantiate();
+            CamaraJugador.Instantiate();
+            Jugador.Instantiate();
+        }
+
     }
+
+    public override void SceneLoadLocalBegin(string scene, Bolt.IProtocolToken token)
+    {
+        Debug.LogWarning("Se ejecuta SceneLoadLocalBegin");
+    }
+
+    public override void SceneLoadRemoteDone(BoltConnection connection)
+    {
+
+    }
+
 
 
     public override void OnEvent(ConexionesEvent evnt)
@@ -49,6 +67,7 @@ public class NetworkCallbacks : Bolt.GlobalEventListener
             {
                 GUILayout.Label(listaMensajes[i]);
             }
+
             GUILayout.EndArea();
         }
     }

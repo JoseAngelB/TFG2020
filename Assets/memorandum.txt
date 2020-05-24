@@ -24,12 +24,20 @@ todas las pantallas de opciones del juego está en el mismo objeto que la pantal
 
 sistema de eventos para conocer las (des)conexones que se produzcan
 
+No existe cámara por defecto a la hora de jugar, cada jugador instacia una cámara localmente al empezar el juego
+Lo mismo para el objeto jugador, pero este queda referenciado en el objeto playerManager el cual sí que está sincronizado
 
-
+El playerManager lo que hace es recuperar todos los jugadores de su estado de red, luego busca el único jugador que hay en su juego local añadiéndolo a su base de datos y a su estado de red
 
 
 
 TODO:
+¡¡¡¡¡las cartas si no las tocas antes que el apilador no las mueve!!!!! arreglarlo
+
 añadir chat
 poner la parte de detras de la carta
+poner para seleccionar el alias
 doble tap para girar carta
+hacer gui para mostrar los alias conectados (y su turno)
+arreglar la altura de la rotación
+barajar

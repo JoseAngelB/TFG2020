@@ -81,3 +81,5 @@ MonoBehaviour:
   maxPalos: 1
   maxCartasPorPalo: 7
   tipoBaraja: espanyola3
+  apilacartas: {fileID: 4223625211914432984, guid: 212dd8de5284a29478638cc5777e4c8f,
+    type: 3}

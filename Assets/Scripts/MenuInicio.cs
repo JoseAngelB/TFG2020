@@ -221,7 +221,7 @@ public class MenuInicio : Bolt.GlobalEventListener
         }
         if (CrearBoton("Volver al inicio"))
         {
-            BoltLauncher.Shutdown();
+            if (BoltNetwork.IsConnected) BoltLauncher.Shutdown();
             estado = Estado.SeleccionarModo;
         }
         GUILayout.EndVertical();

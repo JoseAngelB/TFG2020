@@ -16,16 +16,5 @@ MonoBehaviour:
   Prefabs:
   - {fileID: 0}
   - {fileID: 1603992649074130221, guid: c144fa7e348818c43a021194d972483c, type: 3}
-  - {fileID: 144, guid: 06e7a4ac5e443de43b7993ba0ca740cc, type: 3}
-  - {fileID: 154, guid: 44fe8858620a067459d391c98d20f2ba, type: 3}
-  - {fileID: 182, guid: a9a847f388dd3a04cacfea831b43b9f6, type: 3}
-  - {fileID: 190, guid: 91af2a111356c5c47a1c5d7a60e3c997, type: 3}
-  - {fileID: 183, guid: 9d8808fa1f8a2064f9292a8afeb2c57f, type: 3}
-  - {fileID: 164, guid: f44e6c70ea0ff8440a67d38bc1420f5b, type: 3}
-  - {fileID: 187, guid: a237fd27e29eaf242abbe066c5a0c10e, type: 3}
-  - {fileID: 184, guid: 71f7269a8037ffe47a039901acae39e9, type: 3}
-  - {fileID: 148, guid: a5f615ca0d4f24a49a0a8254befe9d9e, type: 3}
-  - {fileID: 138, guid: cbc84a61586f8314c9a795bb53a073ab, type: 3}
-  - {fileID: 137, guid: a6791d1ee11554843a4d045715c769af, type: 3}
-  - {fileID: 142, guid: 57721c9f656f75b4a9e66820fd5ec3cc, type: 3}
-  - {fileID: 152, guid: 19ac3039338466544a6cb4452eb84c3d, type: 3}
+  - {fileID: 2441835890105649724, guid: 340833e75ccaf784385c3693b33ad04f, type: 3}
+  - {fileID: 6587739213300021652, guid: 07a81e0795503bf42bb30ccb80b01fe9, type: 3}

@@ -25,15 +25,23 @@ public class NetworkCallbacksServer : Bolt.GlobalEventListener
             BoltNetwork.Shutdown();
         }
     }
-    
-    
+
+
     public override void Connected(BoltConnection connection)
     {
         var log = ConexionesEvent.Create();
         log.Mensaje = string.Format("Conectado {0}", connection.RemoteEndPoint);
         log.NumeroConexiones = ++numeroConexiones;
-        Debug.LogFormat("Nueva conexión desde {0}, ahora hay {1} conexiones", connection.RemoteEndPoint, numeroConexiones);
+        Debug.LogFormat("Nueva conexión desde {0}, ahora hay {1} conexiones", connection.RemoteEndPoint,
+            numeroConexiones);
         log.Send();
+
+        //no queremos que alguien se conecte alguien cuando estamos jugando
+        if (FindObjectOfType<GuiIngame>().estado != GuiIngame.Estado.ServidorEsperandoEmpezar)
+        {
+            //connection.Disconnect();
+            //TODO: también hay que hacer que vuelva al menu principal
+        }
     }
 
     public override void Disconnected(BoltConnection connection)
@@ -44,4 +52,5 @@ public class NetworkCallbacksServer : Bolt.GlobalEventListener
         Debug.LogFormat("Desconectado desde {0}, ahora hay {1} conexiones", connection.RemoteEndPoint, numeroConexiones);
         log.Send();
     }
+    
 }

@@ -12,12 +12,13 @@ public class CreaCartas : Bolt.EntityEventListener<ICreaCartasState>
 	[Range(1, 12)] public int maxCartasPorPalo;
 	public string tipoBaraja;
 
+	private ApilaCartas apilacartas;
 
 	private GameObject[] camaras;
 
 	// Use this for initialization
 	void Start () {
-
+		apilacartas = GameObject.FindWithTag("Apilacartas").GetComponent<ApilaCartas>();
 		//camaras = GameObject.FindGameObjectsWithTag ("MainCamera");
 		//PonerCamaras ();
 	}
@@ -54,6 +55,8 @@ public class CreaCartas : Bolt.EntityEventListener<ICreaCartasState>
 				nuevaCarta.GetComponent<Carta>().PonerImagen();*/
 			}
 		}
+
+		apilacartas.Apilar();
 	}
 	
 

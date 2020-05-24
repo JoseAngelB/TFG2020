@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 114518715769839778}
   m_Layer: 0
   m_Name: Carta
-  m_TagString: Untagged
+  m_TagString: Carta
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -296,6 +296,7 @@ MonoBehaviour:
   palo: 
   numero: 
   tipoBaraja: 
+  valor: 0
   tiempoRecuperarPropiedades: 1
 --- !u!114 &114505942037060400
 MonoBehaviour:
@@ -355,3 +356,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   altura: 5
+  tiempoExtraMoviendo: 5
+  tiempoDobleClick: 0.3
+  tiempoRotacion: 1
+  alturaRotacion: 15
+  tiempoRotacionParada: 0.5

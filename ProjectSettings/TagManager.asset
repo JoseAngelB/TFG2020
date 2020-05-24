@@ -6,6 +6,9 @@ TagManager:
   tags:
   - CreaCartas
   - GameOptions
+  - PlayerManager
+  - Carta
+  - Apilacartas
   layers:
   - Default
   - TransparentFX

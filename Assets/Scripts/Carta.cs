@@ -11,6 +11,7 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
     public string palo;
     public string numero;
     public string tipoBaraja;
+    public float valor;
 
     [SerializeField]
     private float tiempoRecuperarPropiedades;
@@ -21,7 +22,7 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Empieza carta");
+        //Debug.Log("Empieza carta");
         //transform.Rotate(new Vector3(0, 180, 0));
         Vector3 posicionInicial = transform.position;
         camara = GameObject.FindWithTag("MainCamera");
@@ -44,11 +45,11 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
         palo = state.CartaPalo;
         numero = state.CartaNumero;
         tipoBaraja = state.CartaTipoBaraja;
-        Debug.LogFormat("Recupero propiedades del {0} de {1} de la baraja {2}", numero, palo, tipoBaraja);
+        //Debug.LogFormat("Recupero propiedades del {0} de {1} de la baraja {2}", numero, palo, tipoBaraja);
         if (palo == null || numero == null || tipoBaraja == null)
         {
             Invoke("RecuperarPropiedades", tiempoRecuperarPropiedades);
-            Debug.LogFormat("Reintentaré buscar las propiedades del {0} de {1} de la baraja {2}", numero, palo, tipoBaraja);
+            //Debug.LogFormat("Reintentaré buscar las propiedades del {0} de {1} de la baraja {2}", numero, palo, tipoBaraja);
         }
         else
         {
@@ -75,7 +76,7 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
 
     public void PonerPropiedades(string palo, string numero, string tipoBaraja)
     {
-        Debug.LogFormat("Pongo las propiedades del {0} de {1}", numero, palo);
+        //Debug.LogFormat("Pongo las propiedades del {0} de {1}", numero, palo);
         this.palo = palo;
         this.numero = numero;
         this.tipoBaraja = tipoBaraja;
@@ -98,7 +99,7 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
 
     public override void OnEvent(PropiedadesCartaEvent evento)
     {
-        Debug.LogFormat("Recibo el evento");
+        //Debug.LogFormat("Recibo el evento");
         palo = evento.Palo;
         numero = evento.Numero;
         tipoBaraja = evento.TipoBaraja;

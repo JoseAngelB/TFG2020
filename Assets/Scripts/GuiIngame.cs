@@ -5,13 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Bolt;
 using UnityEngine.SceneManagement;
+using Event = Bolt.Event;
 
-public class GuiIngame : MonoBehaviour
+public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
 {
 
     private GameOptions opciones;
     private AudioSource musica;
-    private Estado estado;
+    public Estado estado;
 
     private Rect espacioBotonOpciones;
     private Rect espacioBotones;
@@ -114,6 +115,9 @@ public class GuiIngame : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("CreaCartas").GetComponent<CreaCartas>().CrearCartas();
             estado = Estado.Jugando;
+            var eventoEmpezar = GuiIngameEvent.Create();
+            eventoEmpezar.JuegoEmpezado = true;
+            eventoEmpezar.Send();
         }
         GUILayout.EndArea();
     }
@@ -207,7 +211,7 @@ public class GuiIngame : MonoBehaviour
         {
             SceneManager.LoadScene("Menu");
         }
-        BoltNetwork.Shutdown();
+        if (BoltNetwork.IsConnected) BoltNetwork.Shutdown();
     }
     
     
@@ -225,5 +229,13 @@ public class GuiIngame : MonoBehaviour
     {
         opciones.volumen = horizontalSlider;
         musica.volume = horizontalSlider;
+    }
+
+
+    public override void OnEvent(GuiIngameEvent evnt)
+    {
+        Debug.Log("Evento guiIngame con estado " + evnt.JuegoEmpezado);
+        if (evnt.JuegoEmpezado)
+            estado = Estado.Jugando;
     }
 }

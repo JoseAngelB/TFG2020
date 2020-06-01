@@ -137,6 +137,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d376f3345532d1441a504643da8764a9, type: 2}
+    - target: {fileID: 1603992648341435284, guid: c144fa7e348818c43a021194d972483c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 92fd9be22b24fb444b81c177723e3ae8, type: 2}
     - target: {fileID: 1603992649074130192, guid: c144fa7e348818c43a021194d972483c,
         type: 3}
       propertyPath: m_Enabled
@@ -160,17 +165,17 @@ PrefabInstance:
     - target: {fileID: 1603992649074130193, guid: c144fa7e348818c43a021194d972483c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.9967851
       objectReference: {fileID: 0}
     - target: {fileID: 1603992649074130193, guid: c144fa7e348818c43a021194d972483c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.08012195
       objectReference: {fileID: 0}
     - target: {fileID: 1603992649074130193, guid: c144fa7e348818c43a021194d972483c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1603992649074130193, guid: c144fa7e348818c43a021194d972483c,
         type: 3}
@@ -190,12 +195,12 @@ PrefabInstance:
     - target: {fileID: 1603992649074130193, guid: c144fa7e348818c43a021194d972483c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 180.00002
       objectReference: {fileID: 0}
     - target: {fileID: 1603992649074130193, guid: c144fa7e348818c43a021194d972483c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 170.809
       objectReference: {fileID: 0}
     - target: {fileID: 1603992649074130195, guid: c144fa7e348818c43a021194d972483c,
         type: 3}
@@ -705,6 +710,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114353958049391006, guid: 07a81e0795503bf42bb30ccb80b01fe9,
+        type: 3}
+      propertyPath: _sceneGuid
+      value: 4b92aad2-2222-4606-8578-db5db005eeb7
+      objectReference: {fileID: 0}
     - target: {fileID: 6587739213300021643, guid: 07a81e0795503bf42bb30ccb80b01fe9,
         type: 3}
       propertyPath: m_LocalPosition.x

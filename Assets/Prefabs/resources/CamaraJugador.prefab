@@ -207,6 +207,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be6dfb1b551eb44d871110f75b7a822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  altura: 55
+  distanciaCentroInicial: -35
+  distanciaCentroJugador: -55
+  tiempoMover: 2
 --- !u!114 &114353958049391006
 MonoBehaviour:
   m_ObjectHideFlags: 0

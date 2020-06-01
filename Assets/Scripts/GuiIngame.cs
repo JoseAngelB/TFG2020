@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Bolt;
+using JuegoCartas.Juego;
 using UnityEngine.SceneManagement;
 using Event = Bolt.Event;
 
 public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
 {
-
     private GameOptions opciones;
     private AudioSource musica;
     public Estado estado;
 
     private Rect espacioBotonOpciones;
+    private Rect espacioBotonCamara;
     private Rect espacioBotones;
     private Rect espacioVolumen;
     private Rect pantallaEntera;
@@ -22,6 +23,7 @@ public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
     private Rect espacioCartas;
 
     private Texture2D botonOpciones;
+    private Texture2D botonCamara;
     private Texture2D botonCerrar;
 
     private GUIStyle estiloGUIBotones;
@@ -52,9 +54,11 @@ public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
         musica.Play();
         
         espacioBotonOpciones = new Rect(Screen.width * 9/10, 0, Screen.width * 1/10, Screen.width * 1/10);
+        espacioBotonCamara = new Rect(Screen.width * 9/20, 0, Screen.width * 1/10, Screen.width * 1/10);
         espacioBotones = new Rect(Screen.width *2/10, Screen.height *1/20, Screen.width *6/10, Screen.height *3/10);
         espacioVolumen = new Rect(Screen.width *1/3, Screen.height *1/3, Screen.width *1/3, Screen.height *2/10);
         botonOpciones = Resources.Load<Texture2D>("Texturas/iconoEngranaje");
+        botonCamara = Resources.Load<Texture2D>("Texturas/iconoCamara");
         botonCerrar = Resources.Load<Texture2D>("Texturas/iconoCerrar");
 
         espacioFinal = new Rect(Screen.width *1/3, Screen.height *8/10, Screen.width *1/3, Screen.height *2/10);
@@ -104,6 +108,12 @@ public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
         {
             estado = Estado.OpcionesJuego;
         }
+
+        if (GUI.Button(espacioBotonCamara, botonCamara))
+        {
+            GetComponent<CamaraJugador>().MoverCamara();
+        }
+        
         opciones.estiloGUIBotones.normal.background = opciones.estiloBotones;    //volvemos a poner el fondo
     }
 
@@ -114,6 +124,7 @@ public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
         if (CrearBoton("Empezar partida"))
         {
             GameObject.FindGameObjectWithTag("CreaCartas").GetComponent<CreaCartas>().CrearCartas();
+            GameObject.FindGameObjectWithTag("Apilacartas").GetComponent<ApilaCartas>().Apilar();
             estado = Estado.Jugando;
             var eventoEmpezar = GuiIngameEvent.Create();
             eventoEmpezar.JuegoEmpezado = true;

@@ -47,12 +47,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a2066e71b8ea44584d47254b51315b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posicionApiladas: {x: 0, y: 0, z: 0}
+  posicionApiladas: {x: -40, y: 0, z: 0}
   tiempoTranslacion: 10
   apiladores: []
   primeraApilada: 0
   transicionables: []
-  carta: {fileID: 1603992649074130193, guid: c144fa7e348818c43a021194d972483c, type: 3}
+  carta: {fileID: 1603992649074130221, guid: c144fa7e348818c43a021194d972483c, type: 3}
+  tiempoEsperaGirarCartas: 2
+  tiempoEsperaTrasladarCartas: 4
 --- !u!1 &4575879165656060997
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,10 +7,14 @@ using UnityEngine.Experimental.UIElements;
 
 public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
 {
+    //moviendo es movimiento "manual" hecho por el mouse, trasladando es el movimiento automático hacia un punto en concreto
     private bool moviendo = false;
+    private bool trasladando = false;
     private bool rotando = false;
     private bool hayQueRotar = false;
     private bool hayQueRotarRapido = false;
+    private bool hayQueMover = false;
+    private bool hayQueMoverRapido = false;
     private float distancia;
     private Vector3 distanciaInicial;
 
@@ -20,16 +24,19 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
     private Plane planoMovimiento;
 
     [SerializeField] private float tiempoExtraMoviendo;
+    [SerializeField] private float tiempoExtraRotando;
     [SerializeField] private float tiempoDobleClick;
     [SerializeField] private float tiempoRotacion;
     [SerializeField] private float alturaRotacion;
     [SerializeField] private float tiempoRotacionParada;
+    [SerializeField] public float tiempoTranslacion;
     
     private float tiempoTranscurrido;
 
     private Quaternion qinicio;
     private Quaternion qfinal;
     private Vector3 v3inicio;
+    public Vector3 posicionAMover;
     
     
     public override void Attached()
@@ -65,6 +72,9 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
             var casingEvnt = requestControl.Create(entity, EntityTargets.OnlyOwner);
             casingEvnt.Send();
         }
+
+        if (GetComponent<Rigidbody>().isKinematic)
+            GetComponent<Rigidbody>().isKinematic = false;
         
         distancia = Vector3.Distance(transform.position, Camera.main.transform.position);
         moviendo = true;
@@ -72,14 +82,17 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
         Vector3 rayPoint = ray.GetPoint(distancia);
         distanciaInicial = transform.position - rayPoint;
 
-        if (tiempoTranscurrido < tiempoDobleClick && !rotando)
+        if (tiempoTranscurrido < tiempoDobleClick && !rotando && !trasladando)
         {
             hayQueRotar = true;
             var eventoRotar = GirarCartaEvent.Create(entity, EntityTargets.EveryoneExceptController);
             eventoRotar.Despacio = true;
             eventoRotar.Send();
         }
-        else
+        
+        //Debug.LogFormat("en onmousedown moviendo es {0}, rotando es {1}, trasladando es {2}", moviendo, rotando, trasladando);
+        //ponemos el v3inicio en el primer click cuando no estamos haciendo nada
+        if (!moviendo && !rotando && !trasladando)
         {
             v3inicio = transform.position;
         }
@@ -88,6 +101,7 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
     void OnMouseUp()
     {
         moviendo = false;
+        //Debug.LogFormat("El tiempotranscurrido es {0}", tiempoTranscurrido);
         tiempoTranscurrido = 0;
     }
 
@@ -119,6 +133,7 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
             hayQueRotarRapido = false;
             RotarRapido ();
         }
+        //Debug.LogFormat("la carta está en {0}", transform.position);
     }
 
 
@@ -147,11 +162,13 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
         if (hayQueRotar)
         {
             hayQueRotar = false;
+            v3inicio = transform.position;
             StartCoroutine (Rotandome ());
         }
         if (hayQueRotarRapido)
         {
             hayQueRotarRapido = false;
+            v3inicio = transform.position;
             RotarRapido ();
         }
 
@@ -161,6 +178,12 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
             input.rotation = transform.rotation;
             entity.QueueInput(input);
         }
+
+        if (hayQueMover)
+        {
+            
+        }
+        //Debug.LogFormat("moviendo es {0}, rotando es {1}, trasladando es {2}", moviendo, rotando, trasladando);
     }
 
     public override void ExecuteCommand(Command command, bool resetState)
@@ -223,7 +246,7 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
 
     public override void OnEvent(GirarCartaEvent evnt)
     {
-        Debug.Log("Recibo evento para girar carta");
+        //Debug.Log("Recibo evento para girar carta");
         if (evnt.Despacio)
         {
             hayQueRotar = true;
@@ -234,8 +257,22 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
         }
     }
 
+    public override void OnEvent(moverCartaEvent evnt)
+    {
+        posicionAMover = evnt.Posicion;
+        if (evnt.Rapido)
+        {
+            hayQueMoverRapido = true;
+        }
+        else
+        {
+            hayQueMover = true;
+        }
+    }
+
     IEnumerator Rotandome()
     {
+        v3inicio = transform.position;
         GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.None;
         qinicio = transform.rotation;
         transform.Rotate(0, 0, 180);
@@ -263,7 +300,8 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
 
         GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeRotation;
         yield return tiempoRotacionParada * 30;
-        GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.None;
+        GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeRotationY;
+        tiempoTranscurrido = 0;
     }
     
     /// <summary>
@@ -285,8 +323,8 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
     {
         float yDelante = GetComponentsInChildren<Transform>()[1].position.y;
         float yDetras = GetComponentsInChildren<Transform>()[2].position.y;
-        Debug.LogFormat("yDelante es {0} yDetras es {1}", yDelante, yDetras);
-        return yDelante > yDetras;
+        //Debug.LogFormat("yDelante es {0} yDetras es {1}", yDelante, yDetras);
+        return yDelante < yDetras;
     }
     
     
@@ -299,4 +337,35 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
             rotacionX = rotacionX % 360;
         transform.rotation = Quaternion.Euler(rotacionX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
+    
+    
+    public void TrasladarCarta (Vector3 posicionfinal)
+    {
+        trasladando = true;
+        transform.position += Vector3.up * 3;
+        v3inicio = transform.position;
+        posicionAMover = posicionfinal;
+        Debug.LogFormat("PosicionAMover es {0}", posicionAMover);
+        StartCoroutine(Moviendome());
+    }
+
+    IEnumerator Moviendome() {
+        trasladando = true;
+        v3inicio = transform.position;
+        qinicio = transform.rotation;
+        float TiempoInicio = Time.time;
+        float tiempoRelativo = Time.time - TiempoInicio;
+
+        while (tiempoRelativo <= tiempoTranslacion) {
+            //Debug.Log ("moviendo deberia ser true y es: " + moviendo);
+            tiempoRelativo = Time.time - TiempoInicio;
+            transform.position = Vector3.Lerp (v3inicio, posicionAMover, tiempoRelativo/tiempoTranslacion);
+            yield return 1;
+        }
+        transform.rotation = qinicio;
+        trasladando = false;
+        Debug.LogFormat("PosicionAMover es {0}", posicionAMover);
+        v3inicio = transform.position;
+    }
+
 }

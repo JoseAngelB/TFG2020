@@ -17,10 +17,10 @@ public class MenuInicio : Bolt.GlobalEventListener
     private Texture2D selector;
     private Texture2D logo;
     private AudioSource musica;
-    private Rect espacioLogo;
-    private Rect espacioOpciones;
-    private Rect espacioBotones;
-    private Rect espacioVolumen;
+    private Rect espacioLogo = new Rect(Screen.width/2 -70,20,140,110);
+    private Rect espacioOpciones = new Rect(Screen.width *1/3,Screen.height *1/3,Screen.width *1/3,Screen.height *2/3);
+    private Rect espacioBotones = new Rect(Screen.width *2/10, Screen.height *1/20, Screen.width *6/10, Screen.height *3/10);
+    private Rect espacioVolumen = new Rect(Screen.width *1/3, Screen.height *1/3, Screen.width *1/3, Screen.height *2/10);
     
     enum Estado
     {
@@ -37,10 +37,6 @@ public class MenuInicio : Bolt.GlobalEventListener
     {
         selector = Resources.Load<Texture2D>("Texturas/selector");
         logo = Resources.Load<Texture2D>("Texturas/Logo");
-        espacioLogo = new Rect(Screen.width/2 -70,20,140,110);
-        espacioOpciones = new Rect(Screen.width *1/3,Screen.height *1/3,Screen.width *1/3,Screen.height *2/3);
-        espacioBotones = new Rect(Screen.width *2/10, Screen.height *1/20, Screen.width *6/10, Screen.height *3/10);
-        espacioVolumen = new Rect(Screen.width *1/3, Screen.height *1/3, Screen.width *1/3, Screen.height *2/10);
 
         musica = GetComponent<AudioSource>();
         //cargamos opciones

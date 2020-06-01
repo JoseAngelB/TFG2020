@@ -10,7 +10,7 @@ public class GameOptions : MonoBehaviour
 
     public GUIStyle estiloGUIBotones;
     //public GUIStyle estiloGUISeleccionCartas;
-    public Texture2D reversoCartas;
+    public Material reversoCartas;
     public Texture2D estiloBotones;
     public Texture2D[] listaTexturasBotones;
     public int nTexturasBotones;
@@ -32,7 +32,7 @@ public class GameOptions : MonoBehaviour
         estiloGUIBotones.normal.background = estiloBotones;
         estiloGUIBotones.onNormal.background = Resources.Load<Texture2D>("Texturas/selector");
         
-        reversoCartas = listaReversoCartas[nReversoCartas];
+        reversoCartas = Resources.LoadAll<Material>("Texturas/CartasDetras/Materials") [nReversoCartas];
         //estiloGUISeleccionCartas.fixedHeight = 15;//Screen.height / 4;
         //estiloGUISeleccionCartas.fixedWidth = 10;//Screen.width / (listaReversoCartas.Length + 1);
         //Debug.Log("volumen es " + volumen + " texturasBotones es " + PlayerPrefs.GetInt("texturasBotones") + " reversoCartas es " + PlayerPrefs.GetInt("reversoCartas"));

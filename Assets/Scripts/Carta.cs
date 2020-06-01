@@ -16,8 +16,11 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
     [SerializeField]
     private float tiempoRecuperarPropiedades;
 
+    private GameOptions opciones;
+
     private GameObject camara;
     private float rotacionY;
+    
 
     // Use this for initialization
     void Start()
@@ -26,6 +29,7 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
         //transform.Rotate(new Vector3(0, 180, 0));
         Vector3 posicionInicial = transform.position;
         camara = GameObject.FindWithTag("MainCamera");
+        opciones = GameObject.FindWithTag("GameOptions").GetComponent<GameOptions>();
         transform.position = Vector3.zero;
         transform.LookAt(new Vector3(camara.transform.position.x, transform.position.y, camara.transform.position.z));
         rotacionY = transform.rotation.y;
@@ -60,9 +64,16 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
     public void PonerImagen()
     {
         //Debug.Log ("PonerImagen");
-        gameObject.GetComponentsInChildren<MeshRenderer>()[1].material =
-            Resources.Load("Texturas/Cartas/" + tipoBaraja + "/Materials/" + (palo + numero)) as Material;
-        //Debug.Log("poniendo material desde: Texturas/Cartas/" + tipoBaraja + "/Materials/" + (palo + numero));
+        if (opciones == null)
+        {
+            Invoke("Opciones", tiempoRecuperarPropiedades);
+        }
+        else
+        {
+            gameObject.GetComponentsInChildren<MeshRenderer>()[1].material =
+                Resources.Load("Texturas/Cartas/" + tipoBaraja + "/Materials/" + (palo + numero)) as Material;
+            gameObject.GetComponentsInChildren<MeshRenderer>()[2].material = opciones.reversoCartas;
+        }
     }
 
     void OnTriggerEnter(Collider otro)

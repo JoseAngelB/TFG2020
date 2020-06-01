@@ -11,8 +11,10 @@ public class ApilaCartas : MonoBehaviour {
 	private Vector3[] posicionesApiladores;
 	public bool primeraApilada;
 	public GameObject[] transicionables;
-
-	[SerializeField] private Transform carta;
+	public GameObject carta;
+	
+	[SerializeField] private float tiempoEsperaGirarCartas;
+	[SerializeField] private float tiempoEsperaTrasladarCartas;
 	
 	//la distancia que hay entre el punto donde se tienen que apilar y donde tienen que parar los apiladores
 	private float sobrepasoX;
@@ -21,8 +23,6 @@ public class ApilaCartas : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		sobrepasoX = (carta.localScale.x / 2) + 51;
-		sobrepasoZ = (carta.localScale.z / 2) + 51;
 		
 		Collider[] collidersApiladores = gameObject.GetComponentsInChildren<Collider> ();
 		apiladores = new GameObject[collidersApiladores.Length];
@@ -31,8 +31,11 @@ public class ApilaCartas : MonoBehaviour {
 			apiladores [i] = collidersApiladores [i].gameObject;
 			posicionesApiladores [i] = apiladores [i].transform.position;
 		}
+		sobrepasoX = (carta.transform.localScale.x / 2) + 50;
+		sobrepasoZ = (carta.transform.localScale.z / 2) + 50;
 		primeraApilada = true;
 		//Apilar ();
+		
 	}
 	
 	// Update is called once per frame
@@ -42,8 +45,9 @@ public class ApilaCartas : MonoBehaviour {
 
 	public void Apilar ()
 	{
-		//GirarCartas();
-		ApiladoresActivados (true);
+		//Usamos las físicas para apilar
+		/*		No las usamos
+		 ApiladoresActivados (true);
 
 		StartCoroutine (MoverApilador (apiladores [0], new Vector3 (posicionApiladas.x + sobrepasoX, posicionesApiladores[0].y, posicionesApiladores[0].z)));
 		StartCoroutine (MoverApilador (apiladores [1], new Vector3 (posicionesApiladores[1].x, posicionesApiladores[1].y, posicionApiladas.z + sobrepasoZ)));
@@ -54,6 +58,11 @@ public class ApilaCartas : MonoBehaviour {
 		if (primeraApilada) {
 			//StartCoroutine (EsperarParaDesactivar ());
 		}
+		*/
+		
+		Invoke("GirarCartas", tiempoEsperaGirarCartas);
+		Invoke("TransladarCartas", tiempoEsperaTrasladarCartas);
+		Invoke("Barajar", tiempoEsperaTrasladarCartas + carta.GetComponent<MovimientoCarta>().tiempoTranslacion + 1);
 	}
 
 	private IEnumerator MoverApilador (GameObject apilador, Vector3 posicion) {
@@ -97,12 +106,46 @@ public class ApilaCartas : MonoBehaviour {
 		}
 	}
 
+	public void Empezar()
+	{
+		
+	}
+
 	void GirarCartas()
 	{
 		GameObject[] cartas = GameObject.FindGameObjectsWithTag("Carta");
 		foreach (var carta in cartas)
 		{
+			carta.GetComponent<Rigidbody>().isKinematic = true;
 			carta.GetComponent<MovimientoCarta>().Voltear(true);
 		}
+	}
+
+	void TransladarCartas()
+	{
+		GameObject[] cartas = GameObject.FindGameObjectsWithTag("Carta");
+		for (int i = 0; i < cartas.Length; i++)
+		{
+			//cartas[i].transform.position = posicionApiladas + (Vector3.up * (i * carta.localScale.y));
+			cartas[i].GetComponent<MovimientoCarta>().TrasladarCarta(posicionApiladas + (Vector3.up * ((i+1) * carta.transform.localScale.y)));
+		}
+		
+	}
+
+	void Barajar()
+	{
+		GameObject[] cartas = GameObject.FindGameObjectsWithTag("Carta");
+		for (int i = 0; i < cartas.Length; i++)
+		{
+			IntercambiarCartas(cartas[i], cartas[Random.Range(0,cartas.Length)]);
+		}
+	}
+
+	void IntercambiarCartas(GameObject carta1, GameObject carta2)
+	{
+		Vector3 posicionTemp = carta1.transform.position;
+		carta1.transform.position = carta2.transform.position;
+		carta2.transform.position = posicionTemp;
+		
 	}
 }

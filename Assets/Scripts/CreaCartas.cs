@@ -56,7 +56,7 @@ public class CreaCartas : Bolt.EntityEventListener<ICreaCartasState>
 			}
 		}
 
-		apilacartas.Apilar();
+		//apilacartas.Apilar();
 	}
 	
 

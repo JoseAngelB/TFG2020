@@ -32,12 +32,11 @@ El playerManager lo que hace es recuperar todos los jugadores de su estado de re
 
 
 TODO:
-¡¡¡¡¡las cartas si no las tocas antes que el apilador no las mueve!!!!! arreglarlo
 
 añadir chat
-poner la parte de detras de la carta
 poner para seleccionar el alias
-doble tap para girar carta
 hacer gui para mostrar los alias conectados (y su turno)
-arreglar la altura de la rotación
-barajar
+las cartas vuelven a no sincronizar en el momento de dejarlas si es el cliente quien las mueve y el servidor todavía no las ha tocado
+poner la posicion de las camaras que faltan
+girar las cartas para que se vean de cara
+poner el jugador buscando la conexión en lugar de el objeo jugador

@@ -34,16 +34,16 @@ public class CreaCartas : Bolt.EntityEventListener<ICreaCartasState>
 			string palo = "";
 			switch (i) {
 			case 0:
-				palo = "oro";
+				palo = (tipoBaraja == "espanyola1")? "oro": "heart";
 				break;
 			case 1:
-				palo = "copa";
+				palo = (tipoBaraja == "espanyola1")? "copa": "diamond";
 				break;
 			case 2:
-				palo = "espada";
+				palo = (tipoBaraja == "espanyola1")? "espada": "spade";
 				break;
 			case 3:
-				palo = "basto";
+				palo = (tipoBaraja == "espanyola1")? "basto": "club";
 				break;
 			}
 			for (int j = 0; j < maxCartasPorPalo; j++) {

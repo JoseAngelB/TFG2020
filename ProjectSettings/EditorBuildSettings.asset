@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Juego Libre.unity
     guid: 416b9f358eb6d7946a0ab07e4fa239ba
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Juego02.unity
     guid: c3ba282a489156b458758298d4882c34
   m_configObjects: {}

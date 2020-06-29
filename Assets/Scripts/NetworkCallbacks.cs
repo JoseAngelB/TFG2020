@@ -33,7 +33,7 @@ public class NetworkCallbacks : Bolt.GlobalEventListener
 
     public override void SceneLoadLocalBegin(string scene, Bolt.IProtocolToken token)
     {
-        Debug.LogWarning("Se ejecuta SceneLoadLocalBegin");
+        //Debug.LogWarning("Se ejecuta SceneLoadLocalBegin");
     }
 
     public override void SceneLoadRemoteDone(BoltConnection connection)

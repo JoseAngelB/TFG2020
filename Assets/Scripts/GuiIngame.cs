@@ -10,14 +10,19 @@ using Event = Bolt.Event;
 
 public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
 {
+    //private enum barajas {espanyola1 = 0, francesa1 = 1, francesa2 = 2, francesa3 = 3, francesa4 = 4};
+
+
     private GameOptions opciones;
     private AudioSource musica;
+    private CreaCartas creaCartas;
     public Estado estado;
 
     private Rect espacioBotonOpciones;
     private Rect espacioBotonCamara;
     private Rect espacioBotones;
     private Rect espacioVolumen;
+    private Rect espacioElegirPalosCartas;
     private Rect pantallaEntera;
     private Rect espacioFinal;
     private Rect espacioCartas;
@@ -25,14 +30,23 @@ public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
     private Texture2D botonOpciones;
     private Texture2D botonCamara;
     private Texture2D botonCerrar;
+    private Texture2D[] listaBarajas;
 
     private GUIStyle estiloGUIBotones;
-    
+
     private bool pulsadoSiSalir;
     private bool pulsadoNoSalir;
 
+    private int palosSeleccionados = 4;
+    private int cartasPorPaloSeleccionada = 12;
+    private int maxCartasPorPalo = 12;
+    private string stringBaraja = "espanyola1";
+    private int indiceBaraja = 1;
+    private string[] barajas = new string[] {"espanyola1", "francesa1", "francesa2", "francesa3"};//, "francesa4"};
 
-    public enum Estado
+
+
+public enum Estado
     {
         ServidorEsperandoEmpezar,
         ClienteEsperandoEmpezar,
@@ -45,6 +59,13 @@ public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
 
     void Start()
     {
+        listaBarajas = new Texture2D[]
+        {
+            Resources.Load<Texture2D>("Texturas/Cartas/espanyola1/oro1"), Resources.Load<Texture2D>("Texturas/Cartas/francesa1/heart13"), 
+            Resources.Load<Texture2D>("Texturas/Cartas/francesa2/heart13"), Resources.Load<Texture2D>("Texturas/Cartas/francesa3/heart13"), 
+            //Resources.Load<Texture2D>("Texturas/Cartas/francesa4/heart13"), 
+        };
+        
         opciones = GameObject.FindWithTag("GameOptions").GetComponent<GameOptions>();
         
         estiloGUIBotones = opciones.estiloGUIBotones;
@@ -53,10 +74,13 @@ public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
         musica.volume = opciones.volumen;
         musica.Play();
         
+        creaCartas = GameObject.FindWithTag("CreaCartas").GetComponent<CreaCartas>();
+        
         espacioBotonOpciones = new Rect(Screen.width * 9/10, 0, Screen.width * 1/10, Screen.width * 1/10);
         espacioBotonCamara = new Rect(Screen.width * 9/20, 0, Screen.width * 1/10, Screen.width * 1/10);
         espacioBotones = new Rect(Screen.width *2/10, Screen.height *1/20, Screen.width *6/10, Screen.height *3/10);
         espacioVolumen = new Rect(Screen.width *1/3, Screen.height *1/3, Screen.width *1/3, Screen.height *2/10);
+        espacioElegirPalosCartas = new Rect(Screen.width *1/3, Screen.height *2/10, Screen.width *1/3, Screen.height *2/10);
         botonOpciones = Resources.Load<Texture2D>("Texturas/iconoEngranaje");
         botonCamara = Resources.Load<Texture2D>("Texturas/iconoCamara");
         botonCerrar = Resources.Load<Texture2D>("Texturas/iconoCerrar");
@@ -119,6 +143,49 @@ public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
 
     private void EstadoServidorEsperandoEmpezar()
     {
+        
+        //elegir número de cartas y palos
+        GUILayout.BeginArea(espacioElegirPalosCartas);
+        
+        GUILayout.BeginVertical();
+        GUILayout.Label("Número de palos: " + palosSeleccionados);
+        PonerPalos(GUILayout.HorizontalSlider(palosSeleccionados, 1, 4));
+        GUILayout.Label("Número de cartas por palo: " + cartasPorPaloSeleccionada);
+        PonerCartasPorPalo(GUILayout.HorizontalSlider(cartasPorPaloSeleccionada, 1, maxCartasPorPalo));
+        GUILayout.EndVertical();
+        
+        GUILayout.EndArea();
+
+        
+        //selección tipo baraja
+        GUILayout.BeginArea(espacioCartas);
+        GUILayout.BeginHorizontal();
+        GUI.skin.button.normal.background = null;
+        
+        //opciones.nReversoCartas = GUILayout.SelectionGrid(opciones.nReversoCartas, opciones.listaReversoCartas,
+           //opciones.listaReversoCartas.Length, GUILayout.MaxWidth(Screen.width * 9/10),GUILayout.MaxHeight(Screen.height * 2/5));
+        
+        //GUI.skin.button.normal.background = opciones.estiloBotones;
+        indiceBaraja = GUILayout.SelectionGrid(indiceBaraja, listaBarajas, listaBarajas.Length,
+            GUILayout.MaxWidth(Screen.width * 9/10),GUILayout.MaxHeight(Screen.height * 2/5));
+        creaCartas.tipoBaraja = barajas[indiceBaraja];
+        
+        //si es la baraja española hay 12 cartas max por palo, sino, son 13
+        if (indiceBaraja == 0)    
+        {
+            maxCartasPorPalo = 12;
+            if (cartasPorPaloSeleccionada == 13) cartasPorPaloSeleccionada = 12;
+        }
+        else
+        {
+            maxCartasPorPalo = 13;
+        }
+
+        GUILayout.EndHorizontal();
+        GUILayout.EndArea();
+        GUI.skin.button.normal.background = opciones.estiloBotones;
+        
+        //boton empezar partida
         GUILayout.BeginArea(espacioFinal);
         GUI.skin.button = estiloGUIBotones;
         if (CrearBoton("Empezar partida"))
@@ -240,6 +307,18 @@ public class GuiIngame : Bolt.EntityEventListener<IGuiIngameState>
     {
         opciones.volumen = horizontalSlider;
         musica.volume = horizontalSlider;
+    }
+
+    private void PonerPalos(float horizontalSlider)
+    {
+        palosSeleccionados = (int) Math.Round(horizontalSlider);
+        creaCartas.maxPalos = palosSeleccionados;
+    }
+    
+    private void PonerCartasPorPalo(float horizontalSlider)
+    {
+        cartasPorPaloSeleccionada = (int) Math.Round(horizontalSlider);
+        creaCartas.maxCartasPorPalo = cartasPorPaloSeleccionada;
     }
 
 

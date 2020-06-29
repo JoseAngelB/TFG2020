@@ -345,7 +345,7 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
         transform.position += Vector3.up * 3;
         v3inicio = transform.position;
         posicionAMover = posicionfinal;
-        Debug.LogFormat("PosicionAMover es {0}", posicionAMover);
+        //Debug.LogFormat("PosicionAMover es {0}", posicionAMover);
         StartCoroutine(Moviendome());
     }
 
@@ -357,14 +357,13 @@ public class MovimientoCarta : Bolt.EntityEventListener<ICartaState>
         float tiempoRelativo = Time.time - TiempoInicio;
 
         while (tiempoRelativo <= tiempoTranslacion) {
-            //Debug.Log ("moviendo deberia ser true y es: " + moviendo);
             tiempoRelativo = Time.time - TiempoInicio;
             transform.position = Vector3.Lerp (v3inicio, posicionAMover, tiempoRelativo/tiempoTranslacion);
             yield return 1;
         }
         transform.rotation = qinicio;
         trasladando = false;
-        Debug.LogFormat("PosicionAMover es {0}", posicionAMover);
+        //Debug.LogFormat("PosicionAMover es {0}", posicionAMover);
         v3inicio = transform.position;
     }
 

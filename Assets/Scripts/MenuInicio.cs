@@ -82,7 +82,7 @@ public class MenuInicio : Bolt.GlobalEventListener
         opciones.estiloGUIBotones.normal.background = null;    //quitamos el dibujo del botón por defecto porque solo son las texturas lo que queremos mostrar
         GUILayout.BeginArea(espacioBotones);
 
-        GUILayout.Label("Estilo botones");    //TODO: Ponerlo centrado
+        GUILayout.Label("Estilo botones");
         opciones.nTexturasBotones = GUILayout.SelectionGrid(opciones.nTexturasBotones, opciones.listaTexturasBotones,
             opciones.listaTexturasBotones.Length/2, GUILayout.MaxHeight(Screen.height * 2/10));
         
@@ -95,21 +95,22 @@ public class MenuInicio : Bolt.GlobalEventListener
         GUILayout.BeginArea(espacioVolumen);
         
         GUILayout.BeginVertical();
-        GUILayout.Label("Volumen");    //TODO: Ponerlo centrado
+        GUILayout.Label("Volumen");
         PonerVolumen(GUILayout.HorizontalSlider(opciones.volumen,0,1));
         GUILayout.EndVertical();
         
         GUILayout.EndArea();
         
         
-        Rect espacioCartas = new Rect(Screen.width *1/20, Screen.height *2/5, Screen.width *9/10, Screen.height *2/5);    //TODO:mover arriba
+        Rect espacioCartas = new Rect(Screen.width *1/20, Screen.height *2/5, Screen.width *9/10, Screen.height *2/5);
         GUILayout.BeginArea(espacioCartas);
         GUILayout.BeginHorizontal();
         //GUI.skin.button = estiloGUISeleccionCartas;
         GUI.skin.button.normal.background = null;
         
-        opciones.nReversoCartas = GUILayout.SelectionGrid(opciones.nReversoCartas, opciones.listaReversoCartas,
-            opciones.listaReversoCartas.Length, GUILayout.MaxWidth(Screen.width * 9/10),GUILayout.MaxHeight(Screen.height * 2/5));
+        opciones.ponerMaterial(GUILayout.SelectionGrid(opciones.nReversoCartas, opciones.listaReversoCartas,
+            opciones.listaReversoCartas.Length, GUILayout.MaxWidth(Screen.width * 9/10),GUILayout.MaxHeight(Screen.height * 2/5)));
+        
         
         
         GUILayout.EndHorizontal();
@@ -118,7 +119,7 @@ public class MenuInicio : Bolt.GlobalEventListener
         
         GUI.skin.button.normal.background = opciones.estiloBotones;
         
-        Rect espacioVolver = new Rect(Screen.width *1/3, Screen.height *8/10, Screen.width *1/3, Screen.height *2/10);    //TODO:mover arriba
+        Rect espacioVolver = new Rect(Screen.width *1/3, Screen.height *8/10, Screen.width *1/3, Screen.height *2/10);
         GUILayout.BeginArea(espacioVolver);
         GUI.skin.button = estiloGUIBotones;
         if (CrearBoton("Inicio"))

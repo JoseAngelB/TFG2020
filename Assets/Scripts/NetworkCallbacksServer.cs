@@ -40,7 +40,6 @@ public class NetworkCallbacksServer : Bolt.GlobalEventListener
         if (FindObjectOfType<GuiIngame>().estado != GuiIngame.Estado.ServidorEsperandoEmpezar)
         {
             //connection.Disconnect();
-            //TODO: también hay que hacer que vuelva al menu principal
         }
     }
 

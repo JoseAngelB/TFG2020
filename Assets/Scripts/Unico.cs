@@ -10,7 +10,7 @@ public class Unico : MonoBehaviour
         {
             if (gameObject.tag == "untagged")
             {
-                Debug.LogWarning("Hay que ponerle un tag (único) en el objeto " + gameObject.name + " para hacerlo único");
+                Debug.LogError("Hay que ponerle un tag (único) en el objeto " + gameObject.name + " para hacerlo único");
             }
             else
             {

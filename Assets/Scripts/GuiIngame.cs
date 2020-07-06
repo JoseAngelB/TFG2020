@@ -214,7 +214,7 @@ public enum Estado
         opciones.estiloGUIBotones.normal.background = null;    //quitamos el dibujo del botón por defecto porque solo son las texturas lo que queremos mostrar
         GUILayout.BeginArea(espacioBotones);
 
-        GUILayout.Label("Estilo botones");    //TODO: Ponerlo centrado
+        GUILayout.Label("Estilo botones");
         opciones.nTexturasBotones = GUILayout.SelectionGrid(opciones.nTexturasBotones, opciones.listaTexturasBotones,
             opciones.listaTexturasBotones.Length/2, GUILayout.MaxHeight(Screen.height * 2/10));
         
@@ -228,7 +228,7 @@ public enum Estado
         GUILayout.BeginArea(espacioVolumen);
         
         GUILayout.BeginVertical();
-        GUILayout.Label("Volumen");    //TODO: Ponerlo centrado
+        GUILayout.Label("Volumen");
         PonerVolumen(GUILayout.HorizontalSlider(opciones.volumen,0,1));
         GUILayout.EndVertical();
         
@@ -240,8 +240,14 @@ public enum Estado
         GUILayout.BeginHorizontal();
         GUI.skin.button.normal.background = null;
         
-        opciones.nReversoCartas = GUILayout.SelectionGrid(opciones.nReversoCartas, opciones.listaReversoCartas,
-            opciones.listaReversoCartas.Length, GUILayout.MaxWidth(Screen.width * 9/10),GUILayout.MaxHeight(Screen.height * 2/5));
+        opciones.ponerMaterial(GUILayout.SelectionGrid(opciones.nReversoCartas, opciones.listaReversoCartas,
+            opciones.listaReversoCartas.Length, GUILayout.MaxWidth(Screen.width * 9/10),GUILayout.MaxHeight(Screen.height * 2/5)));
+        foreach (GameObject objetoCarta in GameObject.FindGameObjectsWithTag("Carta"))
+        {
+            objetoCarta.GetComponent<Carta>().PonerReverso();
+        }
+
+        
         
         GUI.skin.button.normal.background = opciones.estiloBotones;
         

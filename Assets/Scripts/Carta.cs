@@ -76,6 +76,11 @@ public class Carta : Bolt.EntityEventListener<ICartaState>
         }
     }
 
+    public void PonerReverso()
+    {
+        gameObject.GetComponentsInChildren<MeshRenderer>()[2].material = opciones.reversoCartas;
+    }
+    
     void OnTriggerEnter(Collider otro)
     {
         /*Debug.Log ("OnTriggerEnter otro.gameObject.tag es: " + otro.gameObject.tag);

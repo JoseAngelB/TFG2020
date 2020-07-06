@@ -208,8 +208,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   altura: 55
-  distanciaCentroInicial: -35
-  distanciaCentroJugador: -55
+  distanciaCentroInicial: -10
+  distanciaCentroJugador: -50
   tiempoMover: 2
 --- !u!114 &114353958049391006
 MonoBehaviour:

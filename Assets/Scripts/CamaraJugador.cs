@@ -18,32 +18,29 @@ namespace JuegoCartas.Juego
         private bool viendoMesa;
         private bool moviendo;
         
-        private Vector3 posicionInicialMesa;
-        private Vector3 posicionInicialJugador;
-        private Quaternion rotacionInicial;
+        [SerializeField] private Vector3 posicionInicialMesa;
+        [SerializeField] private Vector3 posicionInicialJugador;
+        [SerializeField] private Quaternion rotacionInicial;
 
 
         private void Awake()
         {
             transform.position = new Vector3(0,altura,0);
+            transform.rotation = Quaternion.Euler(Vector3.zero);
             if (BoltNetwork.Connections.Count() == 0)
             {
-                transform.rotation = Quaternion.Euler(Vector3.zero);
-            } else if (BoltNetwork.Connections.Count() >= 1) //TODO: poner solo para ==1 y poner las rotaciones en los demás jugadores
-            {
-                transform.rotation = Quaternion.Euler(new Vector3(0,180,0));
-            }
-            
-            transform.Translate(new Vector3(0,0,distanciaCentroInicial));
-            posicionInicialMesa = transform.position;
-            transform.Translate(new Vector3(0,0,distanciaCentroJugador - distanciaCentroInicial));
-            posicionInicialJugador = transform.position;
-            transform.position = posicionInicialMesa;
-            transform.LookAt(Vector3.zero);
+                transform.Translate(new Vector3(0,0,distanciaCentroInicial));
+                posicionInicialMesa = transform.position;
+                transform.Translate(new Vector3(0,0,distanciaCentroJugador));
+                posicionInicialJugador = transform.position;
 
-            
-            
-            posicionInicialJugador = new Vector3(0,altura,distanciaCentroJugador);
+            } else if (BoltNetwork.Connections.Count() >= 1)
+            {
+                transform.Translate(new Vector3(0,0,-distanciaCentroInicial));
+                posicionInicialMesa = transform.position;
+                transform.Translate(new Vector3(0,0,-distanciaCentroJugador));
+                posicionInicialJugador = transform.position;
+            }
             
             transform.position = posicionInicialMesa;
             transform.LookAt(Vector3.zero);
